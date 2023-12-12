@@ -7,32 +7,39 @@ import mcubes
 from icecream import ic
 
 
-
+# extract the distance fields
 def extract_fields(bound_min, bound_max, resolution, query_func):
+    # resolution is 512
     N = 64
     X = torch.linspace(bound_min[0], bound_max[0], resolution).split(N)
     Y = torch.linspace(bound_min[1], bound_max[1], resolution).split(N)
     Z = torch.linspace(bound_min[2], bound_max[2], resolution).split(N)
 
-    u = np.zeros([resolution, resolution, resolution], dtype=np.float32)
+    u = np.zeros([resolution, resolution, resolution], dtype=np.float32) #512,512,512
+    
+    # cude SDF
     with torch.no_grad():
         for xi, xs in enumerate(X):
             for yi, ys in enumerate(Y):
                 for zi, zs in enumerate(Z):
                     xx, yy, zz = torch.meshgrid(xs, ys, zs)
-                    pts = torch.cat([xx.reshape(-1, 1), yy.reshape(-1, 1), zz.reshape(-1, 1)], dim=-1)
-                    val = query_func(pts).reshape(len(xs), len(ys), len(zs)).detach().cpu().numpy()
+                    pts = torch.cat([xx.reshape(-1, 1), yy.reshape(-1, 1), zz.reshape(-1, 1)], dim=-1) #(64**3,3)
+                    val = query_func(pts).reshape(len(xs), len(ys), len(zs)).detach().cpu().numpy() #(64,64,64)
                     u[xi * N: xi * N + len(xs), yi * N: yi * N + len(ys), zi * N: zi * N + len(zs)] = val
     return u
 
 def extract_geometry(bound_min, bound_max, resolution, threshold, query_func):
     print('threshold: {}'.format(threshold))
     u = extract_fields(bound_min, bound_max, resolution, query_func)
+    
+    # vertices, traingles. 
     vertices, triangles = mcubes.marching_cubes(u, threshold)
+    
     b_max_np = bound_max.detach().cpu().numpy()
     b_min_np = bound_min.detach().cpu().numpy()
 
     vertices = vertices / (resolution - 1.0) * (b_max_np - b_min_np)[None, :] + b_min_np[None, :]
+    
     return vertices, triangles
 
 def sample_pdf(bins, weights, n_samples, det=False):
@@ -318,10 +325,7 @@ class NeuSRenderer:
                                                     sdf,
                                                     last=(i + 1 == self.up_sample_steps))
                     
-                    
 
-                    
-                    pass
 
             n_samples = self.n_samples + self.n_importance # 128
         
@@ -443,10 +447,14 @@ class NeuSRenderer:
         
     
     
-    
-    def extract_geometry(self):
-        pass
-    
+    # inner class functions
+    def extract_geometry(self, bound_min, bound_max, resolution, threshold=0.0):
+        # get negative sdf
+        return extract_geometry(bound_min,
+                                bound_max,
+                                resolution=resolution,
+                                threshold=threshold,
+                                query_func=lambda pts: -self.sdf_network.sdf(pts))
 
 
 
