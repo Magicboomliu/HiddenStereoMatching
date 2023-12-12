@@ -18,7 +18,6 @@ import cv2 as cv
 
 from torch.utils.tensorboard import SummaryWriter
 
-
 from models.embedder import get_embedder
 from models.distance_field import SDFNetwork,RenderingNetwork
 from models.radiance_field import NeRF
@@ -58,7 +57,7 @@ class Runner:
 
 
         # Weights 
-        self.igr_weight = cfg.TRAIN.IGR_WEIGHT
+        self.igr_weight = cfg.TRAIN.IGR_WEIGHT  # This is the Ekinol Loss Weight Term
         self.mask_weight = cfg.TRAIN.MASK_WEIGHT
         self.is_continue = is_continue
         self.mode = mode
@@ -106,8 +105,11 @@ class Runner:
         # Backup codes and configs for debug
         if self.mode[:5] == 'train':
             self.file_backup()
+    
+    
     # training the Nerf
     def train(self):
+        
         self.writer = SummaryWriter(log_dir=os.path.join(self.cfg.EXP_NAME, 'logs'))
         self.update_learning_rate()
         res_step = self.end_iter - self.iter_step # 300K iterations.
@@ -243,6 +245,7 @@ class Runner:
         if idx < 0:
             idx = np.random.randint(self.dataset.n_images)
 
+        
         print('Validate: iter: {}, camera: {}'.format(self.iter_step, idx))
 
         if resolution_level < 0:

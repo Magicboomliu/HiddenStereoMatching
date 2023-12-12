@@ -264,6 +264,9 @@ class NeuSRenderer:
         z_vals = torch.linspace(0.0, 1.0, self.n_samples)
         z_vals = near + (far - near) * z_vals[None, :] #(N,64)
         
+        print(far-near)
+        quit()
+        
         # Out Side the Sphere, the sample Z_Vals.
         z_vals_outside = None
         if self.n_outside > 0:
