@@ -1,0 +1,4 @@
+# ninja log v5
+0	4347	1701488512262918141	/home/zliu/ECCV2024/HiddenStereoMatching/data_prepration/internimage/detection/ops_dcnv3/build/temp.linux-x86_64-3.7/home/zliu/ECCV2024/HiddenStereoMatching/data_prepration/internimage/detection/ops_dcnv3/src/cpu/dcnv3_cpu.o	f06e0bfb9524429d
+0	21295	1701488529202696684	/home/zliu/ECCV2024/HiddenStereoMatching/data_prepration/internimage/detection/ops_dcnv3/build/temp.linux-x86_64-3.7/home/zliu/ECCV2024/HiddenStereoMatching/data_prepration/internimage/detection/ops_dcnv3/src/vision.o	2a266f94f382441
+0	37629	1701488545534483172	/home/zliu/ECCV2024/HiddenStereoMatching/data_prepration/internimage/detection/ops_dcnv3/build/temp.linux-x86_64-3.7/home/zliu/ECCV2024/HiddenStereoMatching/data_prepration/internimage/detection/ops_dcnv3/src/cuda/dcnv3_cuda.o	d9c805703a2bbc4f
