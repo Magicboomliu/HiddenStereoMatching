@@ -2,3 +2,13 @@
 *.jpg
 *.pth
 *.log
+*.pt
+*.gz
+CIFAR10
+checkpoints
+checkpoints_conditions
+Logs
+logs_conditioned
+Processing_Results
+Processing_Results_conditioned
+events.*
