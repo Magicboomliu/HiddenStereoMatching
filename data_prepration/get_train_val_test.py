@@ -2,7 +2,7 @@ import os
 from tqdm import tqdm
 import sys
 sys.path.append("..")
-from datasets.utils.file_io import read_text_lines,list2txt
+from stereosdf.datasets.utils.file_io import read_text_lines,list2txt
 
 
 def get_all_avaiable_fname_from_folder_kitti_360(root_path,saved_fname_path=None):

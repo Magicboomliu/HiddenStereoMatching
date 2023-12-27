@@ -18,13 +18,25 @@ _C.CHECKPOINTS_DIR ='checkpoints'
 
 _C.DATA.CLS_LIST = ['Car']
 _C.DATA.MODE = 'KITTI Raw'
-_C.DATA.ROOT_360_PATH = ''
+_C.DATA.ROOT_360_PATH = '/media/zliu/data1/dataset/KITTI/KITTI360/'
 _C.DATA.IMAGE_SIZE = ""
 _C.DATA.SCALE_SIZE=""
 _C.DATA.KITTI_RAW_PATH = ''
-_C.DATA.TRAINLIST=""
-_C.DATA.VALLIST=""
-_C.DATA.TESTLIST=""
+_C.DATA.TRAINLIST="/home/zliu/Desktop/ECCV2024/code/StereoSDF/HiddenStereoMatching/filenames/kitti360_annotated/kitti360_with_anno_all.txt"
+_C.DATA.VALLIST="/home/zliu/Desktop/ECCV2024/code/StereoSDF/HiddenStereoMatching/filenames/kitti360_annotated/kitti360_with_anno_val.txt"
+_C.DATA.TESTLIST="/home/zliu/Desktop/ECCV2024/code/StereoSDF/HiddenStereoMatching/filenames/kitti360_annotated/kitti360_with_anno_test.txt"
+_C.DATA.VISIBLE_LISTS = ["left_img","right_img","left_depth","right_depth","left_calib","right_calib",
+                         "left_pose","right_pose","left_seg","right_seg",
+                         "left_2d_box","right_2d_box","left_3d_box","right_3d_box"]
+# _C.DATA.VISIBLE_LISTS = ["left_img","right_img"]
+
+_C.DATA.USED_CLAESSES = ['car','person','bus','train','truck']
+
+# ['traffic light', 'stop', 'bicycle', 'building', 'vegetation', 'motorcycle', 
+# 'trash bin', 'sidewalk', 'ground', 'bus', 'train', 'guard rail', 'terrain', 'wall', 
+# 'bridge', 'person', 'truck', 'rail track', 'parking', 'trailer', 'lamp', 'rider', 'traffic sign', 
+# 'box', 'unknown object', 'tunnel', 'gate', 'unknown vehicle', 'pole', 'caravan', 'fence', 
+# 'sky', 'unknown construction', 'car', 'garage', 'smallpole', 'road', 'vending machine']
 
 
 _C.DATA.TYPE = ['Car', 'Cyclist', 'Pesdstrain']
