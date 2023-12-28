@@ -32,6 +32,12 @@ class ToTensor(object):
         if 'left_depth' in sample.keys():
             sample['left_depth'] = torch.from_numpy(sample['left_depth'])
         
+        if 'left_calib' in sample.keys():
+            sample['left_calib'] = torch.from_numpy(sample['left_calib'])
+        
+        if 'right_calib'  in sample.keys():
+            sample['right_calib'] = torch.from_numpy(sample['right_calib'])
+        
         return sample
 
 
@@ -141,24 +147,27 @@ class CenterCrop(object):
             sample['right_img'],bbox_shift_right = cut_or_pad_img(sample['right_img'],self.targetHW)
         
         if 'left_2d_box' in sample.keys():
-
-            sample['left_2d_box'] = sample['left_2d_box'] + torch.from_numpy(bbox_shift_left)
+            
+            if sample['left_2d_box'] is not None:
+                sample['left_2d_box'] = sample['left_2d_box'] + torch.from_numpy(bbox_shift_left)
 
         if 'right_2d_box' in sample.keys():
-            sample['right_2d_box'] = sample['right_2d_box'] + torch.from_numpy(bbox_shift_right)
+            if sample['right_2d_box'] is not None:
+                sample['right_2d_box'] = sample['right_2d_box'] + torch.from_numpy(bbox_shift_right)
 
 
         if 'left_depth' in sample.keys():            
             sample['left_depth'] = cut_or_pad_img(original_left_img,self.targetHW,
                                                 depth=sample['left_depth'],seg=None)
             
-            
         if 'left_seg' in sample.keys():
-            sample['left_seg'] = cut_or_pad_img(original_left_img,self.targetHW,
+            if sample['left_seg'] is not None:
+                sample['left_seg'] = cut_or_pad_img(original_left_img,self.targetHW,
                                                 depth=None,seg=sample['left_seg'])
         
         if 'right_seg' in sample.keys():
-            sample['right_seg'] = cut_or_pad_img(original_right_img,self.targetHW,
+            if sample['right_seg'] is not None:
+                sample['right_seg'] = cut_or_pad_img(original_right_img,self.targetHW,
                                                 depth=None,seg=sample['right_seg'])
         
         
@@ -171,6 +180,7 @@ class CenterCrop(object):
             sample['right_calib'] = adjust_intrinsics_after_crop(K=sample['right_calib'],
                                                                 original_size=original_right_img.shape[:2],
                                                                 new_size=self.targetHW)
+            
         
            
         return sample

@@ -25,7 +25,7 @@ class KITTI360_Dataset(Dataset):
         
         # only loaded the visible data
         self.visible_data = cfg.DATA.VISIBLE_LISTS
-        self.classes_list = cfg.DATA.USED_CLAESSES 
+        self.classes_list = cfg.DATA.USED_CLAESSES  # used classes
         
     
         self.datapath_kitti360 = cfg.DATA.ROOT_360_PATH
@@ -129,30 +129,46 @@ class KITTI360_Dataset(Dataset):
                                                         0.000000, 552.554261, 238.769549, 0.000000,
                                                     0.000000,0.000000, 1.000000, 0.000000])
                     sample['right_calib'] = sample['right_calib'].reshape(3,4)
+                    
                 if 'right_pose' in self.visible_data:
                     sample['right_pose'] = camera_info_right['extrinsic_matrix'] 
 
-  
+
+            # maynot contains because of the selected classes.
             if ("left_seg" in self.visible_data) or ("left_2d_box" in self.visible_data) or ("left_3d_box" in self.visible_data):
-                semantic_annotations_left = file_io.read_annotation(sample_path['left_annotations'],class_names=self.classes_list)        
-                if 'left_seg' in self.visible_data:
-                    sample['left_seg'] = semantic_annotations_left["masks"]
-                if 'left_2d_box' in self.visible_data:
-                    sample['left_2d_box'] = get_bounding_boxes(segmentation_masks=sample['left_seg'])
-                if "left_3d_box" in self.visible_data:
-                    sample['left_boxes_3d'] = semantic_annotations_left['boxes_3d']
-                sample['left_labels'] = semantic_annotations_left['labels']
+                semantic_annotations_left = file_io.read_annotation(sample_path['left_annotations'],class_names=self.classes_list)
+                if len(semantic_annotations_left.keys())==2:
+                    sample['left_seg'] = None
+                    sample['left_2d_box'] = None
+                    sample['left_boxes_3d'] = None
+                    sample['left_labels'] = None
+                
+                else:
+                    if 'left_seg' in self.visible_data:
+                        sample['left_seg'] = semantic_annotations_left["masks"]
+                    if 'left_2d_box' in self.visible_data:
+                        sample['left_2d_box'] = get_bounding_boxes(segmentation_masks=sample['left_seg'])
+                    if "left_3d_box" in self.visible_data:
+                        sample['left_boxes_3d'] = semantic_annotations_left['boxes_3d']
+                    sample['left_labels'] = semantic_annotations_left['labels']
                     
                     
             if ('right_seg' in self.visible_data) or ('right_2d_box' in self.visible_data) or ('right_3d_box' in self.visible_data):
-                semantic_annotations_right = file_io.read_annotation(sample_path['right_annotations'],class_names=self.classes_list) 
-                if "right_seg" in self.visible_data:
-                    sample['right_seg'] = semantic_annotations_right['masks']
-                if "right_2d_box" in self.visible_data:
-                    sample['right_2d_box'] = get_bounding_boxes(sample['right_seg'])
-                if "right_3d_box" in self.visible_data:
-                    sample['right_boxes_3d'] = semantic_annotations_right['boxes_3d']
-                sample['right_labels'] = semantic_annotations_right['labels']
+                semantic_annotations_right = file_io.read_annotation(sample_path['right_annotations'],class_names=self.classes_list)
+                if len(semantic_annotations_right.keys())==2:
+                    sample['right_2d_box'] = None
+                    sample['right_seg'] = None
+                    sample['right_boxes_3d']= None
+                    sample['right_labels'] = None
+                else:
+                    
+                    if "right_seg" in self.visible_data:
+                        sample['right_seg'] = semantic_annotations_right['masks']
+                    if "right_2d_box" in self.visible_data:
+                        sample['right_2d_box'] = get_bounding_boxes(sample['right_seg'])
+                    if "right_3d_box" in self.visible_data:
+                        sample['right_boxes_3d'] = semantic_annotations_right['boxes_3d']
+                    sample['right_labels'] = semantic_annotations_right['labels']
                 
 
         # Testing Set
@@ -188,27 +204,41 @@ class KITTI360_Dataset(Dataset):
                 if 'right_pose' in self.visible_data:
                     sample['right_pose'] = camera_info_right['extrinsic_matrix'] 
 
-  
+              # maynot contains because of the selected classes.
             if ("left_seg" in self.visible_data) or ("left_2d_box" in self.visible_data) or ("left_3d_box" in self.visible_data):
-                semantic_annotations_left = file_io.read_annotation(sample_path['left_annotations'],class_names=self.classes_list)        
-                if 'left_seg' in self.visible_data:
-                    sample['left_seg'] = semantic_annotations_left["masks"]
-                if 'left_2d_box' in self.visible_data:
-                    sample['left_2d_box'] = get_bounding_boxes(segmentation_masks=sample['left_seg'])
-                if "left_3d_box" in self.visible_data:
-                    sample['left_boxes_3d'] = semantic_annotations_left['boxes_3d']
-                sample['left_labels'] = semantic_annotations_left['labels']
+                semantic_annotations_left = file_io.read_annotation(sample_path['left_annotations'],class_names=self.classes_list)
+                if len(semantic_annotations_left.keys())==2:
+                    sample['left_seg'] = None
+                    sample['left_2d_box'] = None
+                    sample['left_boxes_3d'] = None
+                    sample['left_labels'] = None
+                
+                else:
+                    if 'left_seg' in self.visible_data:
+                        sample['left_seg'] = semantic_annotations_left["masks"]
+                    if 'left_2d_box' in self.visible_data:
+                        sample['left_2d_box'] = get_bounding_boxes(segmentation_masks=sample['left_seg'])
+                    if "left_3d_box" in self.visible_data:
+                        sample['left_boxes_3d'] = semantic_annotations_left['boxes_3d']
+                    sample['left_labels'] = semantic_annotations_left['labels']
                     
                     
             if ('right_seg' in self.visible_data) or ('right_2d_box' in self.visible_data) or ('right_3d_box' in self.visible_data):
-                semantic_annotations_right = file_io.read_annotation(sample_path['right_annotations'],class_names=self.classes_list) 
-                if "right_seg" in self.visible_data:
-                    sample['right_seg'] = semantic_annotations_right['masks']
-                if "right_2d_box" in self.visible_data:
-                    sample['right_2d_box'] = get_bounding_boxes(sample['right_seg'])
-                if "right_3d_box" in self.visible_data:
-                    sample['right_boxes_3d'] = semantic_annotations_right['boxes_3d']
-                sample['right_labels'] = semantic_annotations_right['labels']
+                semantic_annotations_right = file_io.read_annotation(sample_path['right_annotations'],class_names=self.classes_list)
+                if len(semantic_annotations_right.keys())==2:
+                    sample['right_2d_box'] = None
+                    sample['right_seg'] = None
+                    sample['right_boxes_3d']= None
+                    sample['left_labels'] = None
+                else:
+                    
+                    if "right_seg" in self.visible_data:
+                        sample['right_seg'] = semantic_annotations_right['masks']
+                    if "right_2d_box" in self.visible_data:
+                        sample['right_2d_box'] = get_bounding_boxes(sample['right_seg'])
+                    if "right_3d_box" in self.visible_data:
+                        sample['right_boxes_3d'] = semantic_annotations_right['boxes_3d']
+                    sample['right_labels'] = semantic_annotations_right['labels']
         
         
         # data processing
