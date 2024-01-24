@@ -4,7 +4,6 @@ from __future__ import print_function
 from torch.utils.data import Dataset
 import os
 import sys
-
 from stereosdf.datasets.utils import file_io
 from data_prepration.make_annotations import get_bounding_boxes
 from stereosdf.datasets.utils.kitti_io import read_disp,read_img
@@ -171,6 +170,10 @@ class KITTI360_Dataset(Dataset):
                     sample['right_labels'] = semantic_annotations_right['labels']
                 
 
+            # get the global id of the given image
+            
+            
+            
         # Testing Set
         elif self.mode =='test':
             if "left_img" in self.visible_data:
