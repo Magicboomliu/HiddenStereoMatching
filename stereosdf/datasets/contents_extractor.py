@@ -44,37 +44,57 @@ def extract_contents_from_name(left_image_path,contents_type=None):
                                                         0.000000, 552.554261, 238.769549, 0.000000,
                                                     0.000000,0.000000, 1.000000, 0.000000]).reshape(3,4)
         
-    
-        if 'left_pose' in contents_type:
-            pass
         
+        if ('left_pose' in contents_type) or ('left_seg' in contents_type) or ('left_2d_box' in contents_type) or ('left_3d_box' in contents_type):
+            semantic_annotations_left = file_io.read_annotation(left_annotations_fname,class_names=['car'])
+            
+        
+        if ('right_pose' in contents_type) or ('right_seg' in contents_type) or ('right_2d_box' in contents_type) or ('right_3d_box' in contents_type):
+            semantic_annotations_right = file_io.read_annotation(right_annotations_fname,class_names=['car'])
+            
+        if 'left_pose' in contents_type:
+            results['left_pose'] = semantic_annotations_left['extrinsic_matrix']
         if "right_pose" in contents_type:
-            pass
+            results['right_pose'] = semantic_annotations_right['extrinsic_matrix']
         
         if "left_seg" in contents_type:
-            pass
-        
+            if len(semantic_annotations_left.keys())==2:
+                results['left_seg'] = None
+            else:
+                results['left_seg'] = semantic_annotations_left["masks"]
+            
         if 'right_seg' in contents_type:
-            pass
+            if len(semantic_annotations_right.keys())==2:
+                results['right_seg'] = None
+            else:
+                results['right_seg'] = semantic_annotations_right["masks"]
         
         if 'left_2d_box' in contents_type:
-            pass
+            if len(semantic_annotations_left.keys())==2:
+                results['left_2d_box'] = None
+            else:
+                results['left_2d_box'] = get_bounding_boxes(segmentation_masks=results['left_seg'])
         
         if 'right_2d_box' in contents_type:
-            pass
+            if len(semantic_annotations_right.keys())==2:
+                results['right_2d_box'] = None
+            else:
+                results['right_2d_box'] = get_bounding_boxes(segmentation_masks=results['right_seg'])
         
         if "left_3d_box" in contents_type:
-            pass
+            if len(semantic_annotations_left.keys())==2:
+                results['left_3d_box'] = None
+            else:
+                results['left_3d_box'] = semantic_annotations_left['boxes_3d']
         
-        if "right_2d_box" in contents_type:
-            pass
-        
-        if "left_3d_box" in contents_type:
-            pass
         
         if "right_3d_box" in contents_type:
-            pass
-    
+            if len(semantic_annotations_right.keys())==2:
+                results['right_3d_box'] = None
+            else:
+                results['right_3d_box'] = semantic_annotations_right['boxes_3d']
+        
+
     
     
     
