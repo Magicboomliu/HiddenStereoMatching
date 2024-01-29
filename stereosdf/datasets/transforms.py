@@ -6,7 +6,7 @@ import numpy as np
 from PIL import Image, ImageEnhance
 import torchvision.transforms.functional as F
 import random
-import cv2
+# import cv2
 
 
 class Compose(object):
@@ -63,10 +63,8 @@ class Normalize(object):
 def cut_or_pad_img(img, targetHW,depth=None,seg=None):
 
     bbox_shift = np.array([[0, 0, 0, 0]])
-
     t_H, t_W = targetHW
     H, W = img.shape[0], img.shape[1]
-
     padW = np.abs(t_W - W)
     half_padW = int(padW//2)
     

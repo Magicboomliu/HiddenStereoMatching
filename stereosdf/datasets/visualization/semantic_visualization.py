@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import skimage
-import cv2
+# import cv2
 import random
 import numpy as np
 from stereosdf.datasets.visualization.vis_info import numpy_function

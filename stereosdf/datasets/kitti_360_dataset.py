@@ -112,7 +112,7 @@ class KITTI360_Dataset(Dataset):
                                                                calib_only=True)
                 if 'left_calib' in self.visible_data:
                     sample['left_calib'] = np.array([552.554261, 0.000000, 682.049453,
-                                                        0.000000, 0.000000, 552.554261,
+                                                    0.000000, 0.000000, 552.554261,
                                                     238.769549, 0.000000, 0.000000, 0.000000, 
                                                     1.000000, 0.000000])
                     sample['left_calib'] = sample['left_calib'].reshape(3,4)

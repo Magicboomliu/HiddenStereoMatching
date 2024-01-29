@@ -14,10 +14,6 @@ IMAGENET_MEAN = [0.485, 0.456, 0.406]
 IMAGENET_STD = [0.229, 0.224, 0.225]
 
 
-# ["left_img","right_img","left_depth","right_depth","left_calib","right_calib",
-#                          "left_pose","right_pose","left_seg","right_seg",
-#                          "left_2d_box","right_2d_box","left_3d_box","right_3d_box"]
-
 
 def filter_out_without_interets(input_list):
     return [True if element is not None else False for element in input_list]
@@ -46,7 +42,6 @@ def my_collate_fn(batch):
     
     if 'right_pose' in cfg.DATA.VISIBLE_LISTS:
         batched_sample['right_pose'] = torch.stack([item['right_pose'] for item in batch])
-        
     if 'left_depth' in cfg.DATA.VISIBLE_LISTS:
         batched_sample['left_depth'] = torch.stack([item['left_depth'] for item in batch])
     
@@ -137,6 +132,16 @@ if __name__=="__main__":
         left_depth = sample_batched['left_depth']
         
         left_labels = sample_batched['left_labels']
+        
+        
+        print(left_images.shape)
+        print(left_seg[2].shape)
+        print(left_labels)
+        
+        # print(left_det2d[2].shape)
+        
+        
+        break
         
         
 
