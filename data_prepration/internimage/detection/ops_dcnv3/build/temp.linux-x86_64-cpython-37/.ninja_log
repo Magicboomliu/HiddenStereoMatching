@@ -1,4 +1,0 @@
-# ninja log v5
-0	3812	1690175366334042342	/home/liuzihua/InternImage/detection/ops_dcnv3/build/temp.linux-x86_64-cpython-37/home/liuzihua/InternImage/detection/ops_dcnv3/src/cpu/dcnv3_cpu.o	2d9c1de36e2ab3b1
-5	13553	1690175376069966329	/home/liuzihua/InternImage/detection/ops_dcnv3/build/temp.linux-x86_64-cpython-37/home/liuzihua/InternImage/detection/ops_dcnv3/src/vision.o	603de4eaefb473fa
-0	29311	1690175391829844247	/home/liuzihua/InternImage/detection/ops_dcnv3/build/temp.linux-x86_64-cpython-37/home/liuzihua/InternImage/detection/ops_dcnv3/src/cuda/dcnv3_cuda.o	c3023526471e9ba2

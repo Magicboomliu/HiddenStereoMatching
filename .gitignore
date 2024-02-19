@@ -2,3 +2,7 @@
 *.jpg
 *.pth
 *.log
+*.safetensors
+*.pt
+*.pyrc
+*.pyc

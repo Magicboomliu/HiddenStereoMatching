@@ -1,3 +1,0 @@
-mkdir pretrained_InternImage_Models
-cd pretrained_InternImage_Models
-wget https://huggingface.co/OpenGVLab/InternImage/resolve/main/cascade_internimage_xl_fpn_3x_coco.pth
